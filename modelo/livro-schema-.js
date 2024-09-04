@@ -8,6 +8,7 @@ const LivroSchema = new mongoose.Schema({
     ano: { type: Number, required: true }
 });
 
-const Livro = mongoose.model('Livro', LivroSchema);
+
+const Livro = banco.model('Livro', LivroSchema, 'livros');
 
 module.exports = Livro;
