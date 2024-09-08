@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 
 const options = {
@@ -5,8 +6,10 @@ const options = {
     useNewUrlParser: true,
 };
 
-const banco = mongoose.connect('mongodb://localhost:27017/livros', options)
-    .then(() => console.log('Conectado ao MongoDB'))
-    .catch(err => console.error('Erro ao conectar ao MongoDB', err));
+const uri = 'mongodb://127.0.0.1:27017/livraria';
 
-module.exports = banco;
+mongoose.connect(uri, options)
+    .then(() => console.log('Conectado ao MongoDB'))
+    .catch(err => console.error('Erro ao conectar ao MongoDB:', err));
+
+module.exports = mongoose;

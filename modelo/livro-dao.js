@@ -1,5 +1,6 @@
 const Livro = require('./livro-schema');
 
+
 const obterLivros = async () => {
     return await Livro.find();
 };
