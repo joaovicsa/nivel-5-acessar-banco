@@ -44,8 +44,8 @@
   gap: 1rem;
   max-width: 500px;
   margin: 0 auto;
-  padding-bottom: 2em;
-  font-size: x-large;
+  padding-bottom: 0.5em;
+  font-size: 36px;
 }
 
 .form {
@@ -91,8 +91,8 @@
 }
 
 .mainLista h1{
-  padding-bottom: 1em;
-  font-size: x-large;
+  padding-bottom: 0.5em;
+  font-size: 36px;
 }
 
 .table {
