@@ -5,9 +5,9 @@
         <thead class="thead-dark">
             <tr>
                 <th>Título</th>
+                <th>Resumo</th>
                 <th>Editora</th>
                 <th>Autores</th>
-                <th>Ano</th>
             </tr>
         </thead>
         <tbody>
@@ -21,14 +21,14 @@
                     </div>
                 </td>
                 <td>
-                    {{ obterNome(livro.codigo) }}
+                    {{ livro.resumo }}
                 </td>
                 <td>
-                    <ul>
-                        <li *ngFor="let autores of livro.autores">{{ autores }}</li>
-                    </ul>
+                    {{ livro.editora }}
                 </td>
-                <td>{{ livro.ano }}</td>
+                <td>
+                    {{ livro.autores }}
+                </td>
             </tr>
         </tbody>
     </table>

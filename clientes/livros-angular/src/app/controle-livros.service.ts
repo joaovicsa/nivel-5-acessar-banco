@@ -1,34 +1,59 @@
 import { Injectable } from '@angular/core';
 import { Livro } from './livro';
 
+const baseURL = "http://localhost:3030/livros";
+
+export interface LivroMongo {
+  _id: string | null;
+  codEditora: number;
+  titulo: string;
+  resumo: string;
+  autores: string[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ControleLivrosService {
-  livros: Livro[];
 
-  constructor() {
-    this.livros = [
-      { codigo: 1, titulo: 'Livro A', autores: ['Autor A'], editora: 1, ano: 2020 },  // Usando códigos numéricos para editora
-      { codigo: 2, titulo: 'Livro B', autores: ['Autor B'], editora: 2, ano: 2021 },  // Corrigido 'autor' para 'autores'
-      { codigo: 3, titulo: 'Livro C', autores: ['Autor C'], editora: 3, ano: 2022 }
-    ].map(data => new Livro(data.codigo, data.titulo, data.autores, data.editora, data.ano));
+  constructor() { }
+
+ 
+  async obterLivros(): Promise<Livro[]> {
+    const response = await fetch(baseURL, { method: 'GET' });
+    const livrosMongo: LivroMongo[] = await response.json();
+
+    return livrosMongo.map(livroMongo => ({
+      codigo: livroMongo._id || '',  
+      titulo: livroMongo.titulo,
+      autores: livroMongo.autores,
+      editora: livroMongo.codEditora,
+      resumo: livroMongo.resumo
+    }));
   }
 
-  obterLivros(): Livro[] {
-    return this.livros;
+  async incluir(livro: Livro): Promise<boolean> {
+    const livroMongo: LivroMongo = {
+      _id: null,  
+      codEditora: livro.editora,
+      titulo: livro.titulo,
+      resumo: livro.resumo,
+      autores: livro.autores
+    };
+
+    const response = await fetch(baseURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(livroMongo)
+    });
+
+    return response.ok;
   }
 
-  incluir(novoLivro: Livro): void {
-    const novoCodigo = this.livros.reduce((max, livro) => (livro.codigo > max ? livro.codigo : max), 0) + 1;
-    novoLivro.codigo = novoCodigo;
-    this.livros.push(novoLivro);
-  }
-
-  excluir(codigoLivro: number): void {
-    const index = this.livros.findIndex(livro => livro.codigo === codigoLivro);
-    if (index !== -1) {
-      this.livros.splice(index, 1);
-    }
+  async excluir(codigoLivro: string): Promise<boolean> {
+    const response = await fetch(`${baseURL}/${codigoLivro}`, { method: 'DELETE' });
+    return response.ok;
   }
 }

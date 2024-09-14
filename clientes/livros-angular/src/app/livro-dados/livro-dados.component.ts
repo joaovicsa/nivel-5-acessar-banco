@@ -12,9 +12,9 @@ import { ControleLivrosService } from '../controle-livros.service';
 })
 export class LivroDadosComponent implements OnInit {
 
-  public livro: Livro = new Livro(); 
-  public autoresForm: string = ''; 
-  public editoras: Array<Editora> = []; 
+  public livro: Livro = new Livro();
+  public autoresForm: string = '';
+  public editoras: Array<Editora> = [];
 
   constructor(
     private servEditora: ControleEditoraService,
@@ -27,8 +27,9 @@ export class LivroDadosComponent implements OnInit {
   }
 
   incluir = (): void => {
-    this.livro.autores = this.autoresForm.split('\n'); 
-    this.servLivros.incluir(this.livro); 
-    this.router.navigateByUrl('/lista'); 
+    this.livro.autores = this.autoresForm.split('');
+    this.servLivros.incluir(this.livro).then(() => {
+      this.router.navigateByUrl('/lista');
+    });
   }
 }
